@@ -1,11 +1,27 @@
-name: test
+name: Build Docker
 on:
     workflow_dispatch:
+      inputs:
+        latest-tag:
+            description: "Publish Release"
+            required: false
+            default: false
+        daily-tag:
+            description: "Publish Daily"
+            required: false
+            default: true
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: mkdir mydir && touch mydir/hello.txt && cd mydir && ls
-      - run: ls
+      - uses: fastai/workflows/quarto-docker@master
+        with:
+          source: quarto-1.3.306-linux-amd64.deb
+          version: "v1.3.306"
+          token: ${{ secrets.DOCKER_TOKEN }}
+          username: hamelsmu
+          repo: quarto-test
+          latest: ${{ inputs.latest-tag }}
+          daily: ${{ inputs.daily-tag }}
+ 
