@@ -11,6 +11,9 @@ on:
             required: false
             default: true
 
+permissions:
+    packages: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
